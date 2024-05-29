@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 import com.bettinghouse.User;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,19 +9,31 @@ import java.util.Calendar;
 
 public aspect Logger {
 	pointcut signUpSuccessful(User u,Object p):call(* *(..)) && args(u,p);
-	after(User u) : log(u) {
+	pointcut log(User u) : call(* *(..)) && args(u);
 		
+	after(User u, Object p) : signUpSuccessful(u,p) {
         String methodName = thisJoinPoint.getSignature().getName();
         //User u = param;
         Calendar cal = Calendar.getInstance();
         //System.out.println(methodName);
-        
+        System.out.println(methodName);
+       
         if(methodName.equals("successfulSignUp")) {
         	String line = "Usuario registrado: [nickname = "+u.getNickname()+", password = "+u.getPassword()+"]  fecha: ["+cal.getTime()+"]";
-            save("Register.txt",line);
-        }else if(methodName.equals("effectiveLogIn")) {
+            save("Register.txt",line);          
+        }
+	}
+    	after(User u) : log(u) {
+            String methodName = thisJoinPoint.getSignature().getName();
+            //User u = param;
+            Calendar cal = Calendar.getInstance();
+            //System.out.println(methodName);
+            System.out.println(methodName);
+    	
+        if(methodName.equals("effectiveLogIn")) {
         	//System.out.println(methodName);
         	String line = "Sesión iniciada por usuario: ["+u.getNickname()+"]  fecha: ["+cal.getTime()+"]";
 	        save("Log.txt",line);
         }
+    	}
 }
