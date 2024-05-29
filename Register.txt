@@ -1,0 +1,2 @@
+Usuario registrado: [nickname = oayagual, password = Jorge300@]  fecha: [Wed May 29 15:57:35 ECT 2024]
+Usuario registrado: [nickname = jjyagual, password = jorge]  fecha: [Wed May 29 16:07:23 ECT 2024]
